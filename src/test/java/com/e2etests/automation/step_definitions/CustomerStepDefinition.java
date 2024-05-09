@@ -1,10 +1,12 @@
 package com.e2etests.automation.step_definitions;
 
 
+import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 
 import com.e2etests.automation.page_objects.CustomerPage;
 import com.e2etests.automation.utils.ConfigFileReader;
+import com.e2etests.automation.utils.RandomValue;
 import com.e2etests.automation.utils.SeleniumUtils;
 import com.e2etests.automation.utils.Setup;
 import com.e2etests.automation.utils.Validations;
@@ -21,6 +23,7 @@ public class CustomerStepDefinition {
 	private CustomerPage customerPage  ;
 	private Validations validations;
 	private Wait wait ;
+	private RandomValue randomValue;
 	
 	public CustomerStepDefinition(){
 		this.seleniumUtils = new SeleniumUtils();
@@ -28,6 +31,7 @@ public class CustomerStepDefinition {
 		this.customerPage = new CustomerPage();
 		this.validations = new Validations();
 		this.wait = new Wait(Setup.getDriver());
+		this.randomValue = new RandomValue();
 		
 	}
 	
@@ -64,31 +68,35 @@ public class CustomerStepDefinition {
 	}
 	@Then("Un message d ajout s affiche")
 	public void unMessageDAjoutSAffiche() {
-		validations.assertTrue(CustomerPage.addtext,configFileReader.getProperties("addcustomer"));
+		validations.assertTrue(customerPage.addtext,configFileReader.getProperties("addcustomer"));
 	}
 	
 
 	@When("Je saisie l email de customer")
 	public void jeSaisieLEmailDeCustomer() {
-	    
+	    seleniumUtils.writeText(customerPage.searchemail, configFileReader.getProperties("email"));
 	}
 	@When("Je clique sur le bouton search")
 	public void jeCliqueSurLeBoutonSearch() {
-	   
+	   seleniumUtils.click(customerPage.searchebtn);
+	   ((JavascriptExecutor) Setup.getDriver()).executeScript("window.scrollBy(0,700)", "");
 	}
 	@Then("Le cusmtomer s affiche dans le tableau")
-	public void leCusmtomerSAfficheDansLeTableau() {
-	    ;
+	public void leCusmtomerSAfficheDansLeTableau() throws InterruptedException {
+		Thread.sleep(2000);
+	  validations.assertEquals(customerPage.emailtable, configFileReader.getProperties("email"));
 	}
 	
 	@When("Je saisie l email de customer inexistant")
 	public void jeSaisieLEmailDeCustomerInexistant() {
-	    
+		seleniumUtils.writeText(customerPage.searchemail, randomValue.getSaltString());
 	}
 
 	@Then("Le tableau s affiche vide")
-	public void leTableauSAfficheVide() {
-	    
+	public void leTableauSAfficheVide() throws InterruptedException {
+		Thread.sleep(2000);
+		validations.assertTrue(customerPage.emptytable,configFileReader.getProperties("emptytable"));
+		
 	}
 	
 

@@ -43,9 +43,24 @@ public class CustomerPage {
     @FindBy(how = How.XPATH, using = "//div[@class='alert alert-success alert-dismissable']")
    	public static WebElement addtext  ;
     
-  
     
-	public  CustomerPage() {
+ 
+ @FindBy(how = How.ID, using = "search-customers")
+   	public static WebElement searchebtn   ;
+ 
+ 
+   
+ @FindBy(how = How.XPATH, using = "//td[normalize-space()='azertaaa1@gmail.com']")
+ public static WebElement emailtable   ;
+//td[@class='dataTables_empty']
+ 
+ @FindBy(how = How.ID, using = "customers-grid_info")
+ public static WebElement emptytable   ;
+ 
+
+ 
+ public  CustomerPage() {
+		
 		PageFactory.initElements(Setup.driver, this);}
 	
 }
