@@ -649,6 +649,8 @@ public class SeleniumUtils extends BasePage {
 			action.click(element).build().perform();
 		
 		}
+		public static void scrollDown() {
+		((JavascriptExecutor) Setup.getDriver()).executeScript("window.scrollBy(0,700)", "");}
 	}
 		
 

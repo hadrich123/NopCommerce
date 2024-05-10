@@ -43,8 +43,19 @@ public class CustomerPage {
     @FindBy(how = How.XPATH, using = "//div[@class='alert alert-success alert-dismissable']")
    	public static WebElement addtext  ;
     
+    @FindBy(how = How.XPATH, using = "//a[normalize-space()='Edit']")
+   	public static WebElement editbtn  ;
     
- 
+    @FindBy(how = How.XPATH, using = "//div[@class='alert alert-success alert-dismissable']")
+   	public static WebElement updatetext  ;
+  
+    @FindBy(how = How.XPATH, using = "//div[@class='alert alert-success alert-dismissable']")
+   	public static WebElement deletetext  ;
+    
+    @FindBy(how = How.XPATH, using = "//button[normalize-space()='Delete']")
+   	public static WebElement alertdelete  ;
+    
+  
  @FindBy(how = How.ID, using = "search-customers")
    	public static WebElement searchebtn   ;
  
@@ -52,12 +63,13 @@ public class CustomerPage {
    
  @FindBy(how = How.XPATH, using = "//td[normalize-space()='azertaaa1@gmail.com']")
  public static WebElement emailtable   ;
-//td[@class='dataTables_empty']
- 
+
  @FindBy(how = How.ID, using = "customers-grid_info")
  public static WebElement emptytable   ;
  
-
+ 
+ @FindBy(how = How.ID, using = "customer-delete")
+ public static WebElement deletbtn   ;
  
  public  CustomerPage() {
 		

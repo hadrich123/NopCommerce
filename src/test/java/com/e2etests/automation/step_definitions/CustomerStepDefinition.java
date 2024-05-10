@@ -1,6 +1,8 @@
 package com.e2etests.automation.step_definitions;
 
 
+import java.time.Duration;
+
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 
@@ -36,7 +38,7 @@ public class CustomerStepDefinition {
 	}
 	
 	@Given("Je m accede a l espace customer")
-	public void jeMAccedeALEspaceCustomer() throws InterruptedException {
+	public void jeMAccedeALEspaceCustomer()  {
 	    seleniumUtils.click(customerPage.navcustomers);
 	    seleniumUtils.waitForElementToBeClickable(customerPage.btncustomers);
 	    seleniumUtils.click(customerPage.btncustomers);
@@ -79,57 +81,60 @@ public class CustomerStepDefinition {
 	@When("Je clique sur le bouton search")
 	public void jeCliqueSurLeBoutonSearch() {
 	   seleniumUtils.click(customerPage.searchebtn);
-	   ((JavascriptExecutor) Setup.getDriver()).executeScript("window.scrollBy(0,700)", "");
+	   seleniumUtils.scrollDown();
+	   //((JavascriptExecutor) Setup.getDriver()).executeScript("window.scrollBy(0,700)", "");
 	}
 	@Then("Le cusmtomer s affiche dans le tableau")
-	public void leCusmtomerSAfficheDansLeTableau() throws InterruptedException {
-		Thread.sleep(2000);
+	public void leCusmtomerSAfficheDansLeTableau()  {
+		wait.forElementToBeDisplayed(Duration.ofSeconds(10),customerPage.emailtable, "NAN");
 	  validations.assertEquals(customerPage.emailtable, configFileReader.getProperties("email"));
 	}
 	
 	@When("Je saisie l email de customer inexistant")
 	public void jeSaisieLEmailDeCustomerInexistant() {
-		seleniumUtils.writeText(customerPage.searchemail, randomValue.getSaltString());
+		seleniumUtils.writeText(customerPage.searchemail, randomValue.getSaltStringEmail());
 	}
 
 	@Then("Le tableau s affiche vide")
-	public void leTableauSAfficheVide() throws InterruptedException {
-		Thread.sleep(2000);
+	public void leTableauSAfficheVide()  {
+		
+		wait.forElementToBeDisplayed(Duration.ofSeconds(10), customerPage.emptytable, "NAN");
+		
 		validations.assertTrue(customerPage.emptytable,configFileReader.getProperties("emptytable"));
 		
 	}
 	
 
-	
-	
 	@When("Je clique sur le bouton edit")
 	public void jeCliqueSurLeBoutonEdit() {
-	    
-	}
+		seleniumUtils.scrollDown();
+		wait.forElementToBeDisplayed(Duration.ofSeconds(10), customerPage.editbtn, "NAN");
+	    seleniumUtils.click(customerPage.editbtn);	}
 	@When("Je modifie les information souhaite")
 	public void jeModifieLesInformationSouhaite() {
-	   
+		seleniumUtils.writeText(customerPage.email, randomValue.getSaltStringEmail());
 	}
 	
 	@When("Un messge d update s affiche")
 	public void unMessgeDUpdateSAffiche() {
-	    
+		wait.forElementToBeDisplayed(Duration.ofSeconds(10),customerPage.updatetext, "NAN");
+		validations.assertTrue(customerPage.updatetext,configFileReader.getProperties("updatecustomer"));
 	}
-	
-
 	
 	
 	@When("Je clique sur le bouton delete")
 	public void jeCliqueSurLeBoutonDelete() {
-	    
+	    seleniumUtils.click(customerPage.deletbtn);
 	}
 	@When("Je clique sur delete d alert")
 	public void jeCliqueSurDeleteDAlert() {
+		wait.forElementToBeDisplayed(Duration.ofSeconds(10),customerPage.alertdelete, "NAN");
+		seleniumUtils.click(customerPage.alertdelete);
 	    
 	}
 	@When("Un messge de delete s affiche")
-	public void unMessgeDeDeleteSAffiche() {
-	    
+	public void unMessgeDeDeleteSAffiche() throws InterruptedException {
+		validations.assertTrue(customerPage.deletetext,configFileReader.getProperties("deletecustomer"));
 	}
 
 
